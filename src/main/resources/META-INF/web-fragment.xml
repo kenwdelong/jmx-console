@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd"
+	id="HelloFrag" version="3.0">
+	<!-- If you leave the welcome file in, and you have nothing mapped to /, the main view will show up there -->
+<!--   <welcome-file-list> -->
+<!--     <welcome-file>jmx-console/index.jsp</welcome-file> -->
+<!--   </welcome-file-list> -->
+  <servlet>
+    <description></description>
+    <display-name>LookupMBeansServlet</display-name>
+    <servlet-name>LookupMBeansServlet</servlet-name>
+    <servlet-class>com.bc.web.jmxconsole.LookupMBeansServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LookupMBeansServlet</servlet-name>
+    <url-pattern>/jmx-console/list</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>ShowBeanData</display-name>
+    <servlet-name>ShowBeanData</servlet-name>
+    <servlet-class>com.bc.web.jmxconsole.ShowBeanData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowBeanData</servlet-name>
+    <url-pattern>/jmx-console/showBean</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>UpdateAttributeServlet</display-name>
+    <servlet-name>UpdateAttributeServlet</servlet-name>
+    <servlet-class>com.bc.web.jmxconsole.UpdateAttributeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateAttributeServlet</servlet-name>
+    <url-pattern>/jmx-console/updateAttributes</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>InvokeOperationServlet</display-name>
+    <servlet-name>InvokeOperationServlet</servlet-name>
+    <servlet-class>com.bc.web.jmxconsole.InvokeOperationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InvokeOperationServlet</servlet-name>
+    <url-pattern>/jmx-console/invokeOperation</url-pattern>
+  </servlet-mapping>
+  
+</web-fragment>
