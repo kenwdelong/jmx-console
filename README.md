@@ -5,6 +5,8 @@ This is simple JMX MBean viewer that comes in the form of a JARred web fragment.
 in a JAR file, simply dropping that JAR file into your WEB-INF/lib directory will expose the JMX beans at the
 url /jmx-console.
 
+This release is for Java 1.7, and Servlet 3.0
+
 Bugs
 ----
 
