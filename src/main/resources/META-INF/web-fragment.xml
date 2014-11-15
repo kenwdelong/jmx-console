@@ -11,7 +11,7 @@
     <description></description>
     <display-name>LookupMBeansServlet</display-name>
     <servlet-name>LookupMBeansServlet</servlet-name>
-    <servlet-class>com.bc.web.jmxconsole.LookupMBeansServlet</servlet-class>
+    <servlet-class>com.kendelong.web.jmxconsole.LookupMBeansServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LookupMBeansServlet</servlet-name>
@@ -22,7 +22,7 @@
     <description></description>
     <display-name>ShowBeanData</display-name>
     <servlet-name>ShowBeanData</servlet-name>
-    <servlet-class>com.bc.web.jmxconsole.ShowBeanData</servlet-class>
+    <servlet-class>com.kendelong.web.jmxconsole.ShowBeanData</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ShowBeanData</servlet-name>
@@ -33,7 +33,7 @@
     <description></description>
     <display-name>UpdateAttributeServlet</display-name>
     <servlet-name>UpdateAttributeServlet</servlet-name>
-    <servlet-class>com.bc.web.jmxconsole.UpdateAttributeServlet</servlet-class>
+    <servlet-class>com.kendelong.web.jmxconsole.UpdateAttributeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateAttributeServlet</servlet-name>
@@ -44,7 +44,7 @@
     <description></description>
     <display-name>InvokeOperationServlet</display-name>
     <servlet-name>InvokeOperationServlet</servlet-name>
-    <servlet-class>com.bc.web.jmxconsole.InvokeOperationServlet</servlet-class>
+    <servlet-class>com.kendelong.web.jmxconsole.InvokeOperationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>InvokeOperationServlet</servlet-name>

@@ -1,4 +1,4 @@
-package com.bc.web.jmxconsole;
+package com.kendelong.web.jmxconsole;
 
 import java.io.IOException;
 import java.net.URLEncoder;

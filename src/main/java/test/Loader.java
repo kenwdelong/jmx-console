@@ -16,7 +16,7 @@ public class Loader implements ServletContextListener
 		{
 			MBeanServer server = MBeanServerFactory.findMBeanServer(null).get(0);
 			Hello h = new Hello();
-			ObjectName oname = new ObjectName("bc:service=hello");
+			ObjectName oname = new ObjectName("jmxtest:service=hello");
 			server.registerMBean(h, oname);
 		}
 		catch(Exception e)
