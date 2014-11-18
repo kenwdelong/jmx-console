@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.kenwdelong</groupId>
   <artifactId>jmx-console</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   <name>JMX Console</name>
   <description>A web-fragment implementing a simple JMX MBean browser, modeled on the old JBoss JMX Console.  Simply drop this JAR into
@@ -62,7 +62,8 @@
 		<connection>scm:git:git@github.com:kenwdelong/jmx-console.git</connection>
 		<url>scm:git:git@github.com:kenwdelong/jmx-console.git</url>
 		<developerConnection>scm:git:git@github.com:kenwdelong/jmx-console.git</developerConnection>
-	</scm>
+	  <tag>jmx-console-1.0.0</tag>
+  </scm>
 
 	<licenses>
 		<license>
