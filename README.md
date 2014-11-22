@@ -26,7 +26,7 @@ Artifact is available in Maven Central under
 	<dependency>
 		<groupId>com.github.kenwdelong</groupId>
 		<artifactId>jmx-console</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 	</dependency>
 
 Releases
