@@ -16,8 +16,8 @@ and issue a pull request.  I'd appreciate it!
 Notes
 -----
 
-I don't make any representation that this is actually very good code.  It's written with bare servlets and everything is
-pretty cobbled together - but who cares, since it's just a utility to add to an existing web app.
+I don't make any representation that this is actually very good code.  It's written with bare servlets and jsp with no frameworks or
+abstractions. It's just a little thing to visualize JMX Mbeans.
 
 Maven
 -----
