@@ -31,6 +31,6 @@ Artifact is available in Maven Central under
 
 Releases
 --------
-1.0.0: This release is for Java 1.7, and Servlet 3.0
-1.1.0: This release is for Java 1.8 and Service 3.1
+- 1.0.0: This release is for Java 1.7, and Servlet 3.0
+- 1.1.0: This release is for Java 1.8 and Service 3.1
 	
