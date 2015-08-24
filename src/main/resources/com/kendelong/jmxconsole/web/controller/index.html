@@ -16,6 +16,9 @@
 		.panel {
 			margin-bottom: 5px;
 		}
+		.panel-heading {
+			overflow: hidden;
+		}
 	</style>
   </head>
   <body>
@@ -148,7 +151,7 @@
 										'<div>' +
 											'<div class="row">' +
 												'<div class="col-sm-4"><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ safeName }}{{ operation.name}}" aria-expanded="false" aria-controls="{{ safeName }}{{ operation.name}}">{{ operation.name }}</button></div>' +
-												'<div class="col-sm-offset-1"><strong class="col-sm-push-1">{{ operation.description }}</strong></div>' +
+												'<div class="col-sm-8"><strong class="col-sm-push-1">{{ operation.description }}</strong></div>' +
 											'</div>' +
 											'<div class="collapse" id="{{ safeName }}{{ operation.name}}">' +
 												'<div class="well">' +
