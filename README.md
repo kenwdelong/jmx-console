@@ -26,11 +26,27 @@ Artifact is available in Maven Central under
 	<dependency>
 		<groupId>com.github.kenwdelong</groupId>
 		<artifactId>jmx-console</artifactId>
-		<version>1.1.0</version>
+		<version>2.0.0</version>
 	</dependency>
 
 Releases
 --------
+- 2.0.0: (Aug 24, 2015) - Adapted for use in Spring Boot, brand new UI (see below)
 - 1.1.0: This release is for Java 1.8 and Servlet 3.1
 - 1.0.0: This release is for Java 1.7, and Servlet 3.0
+
+## Version 2.0
+Version 2.0 has a new UI. In version 1, the UI was exposed through web fragments - just drop the JAR into the project and the servlets were added to the web configuration.  Most modern Spring apps are going to be using Spring Boot; unfortunately, web fragments don't work with Boot's internal web container architecture. So I added a new UI independent of web fragments. Spring-webmvc is now a dependency of the project; however, if you not using Boot you can exclude this dependency and just use the old web fragment style.  None of that code has changed.
+
+### Configuration
+There is a single Spring controller in the package `com.kendelong.jmxconsole.web.controller` called `JmxConsoleController`; just mount that in your application context. You can either instantiate the bean directly in XML, Java config, or add the package to your component scan path.
+
+The new UI appears at `/admin/jmx`. If you need to change that, you'll need to write your own controller, or perhaps subclass the existing one and change the root request mapping.  You can use the `MBeanDataRetriever` to do the work. It requires a reference to the MBeanServer passed in the constructor. The controller gets it from Spring.
+
+### Screenshot
+
+![screenshot](https://raw.github.com/kenwdelong/jmx-console/master/misc/Console.jpg)
+
+#### Design
+The initial view of the page just loads the names of the MBeans.  When you expand an individual MBean entry, it goes back to the server to fetch the data about that MBean. This is because each MBean has different attributes and operations, so the MBeanServer needs to be queried.  Querying for every MBean, and rendering all that HTML, would be slow and inefficient. When the MBean entry is expanded, the DOM is created for it on the fly, and when you close the entry that DOM is removed. That means if you open and close an entry the data is refreshed from the server.
 	
