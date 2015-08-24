@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="JmxConsole">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>JMX Console</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<style>
+		.panel {
+			margin-bottom: 5px;
+		}
+	</style>
+  </head>
+  <body>
+	<div class="container" ng-controller="MainCtrl as main" ng-cloak>
+		<h1 class="text-center">JMX Console</h1>
+		
+		<div ng-repeat="domain in main.domains">
+		<h3>{{ domain.name }}</h3>
+		<div class="panel panel-default" ng-repeat="bean in domain.beans">
+		  <div class="panel-heading" mbean bean="bean" domain="domain">
+			<h3 class="panel-title"><strong>{{ bean.name }}</strong></h3>
+		  </div>
+		</div> <!-- End ng-repeat -->
+			
+
+
+
+	</div>
+	<script type="text/javascript">
+		var myApp = angular.module('JmxConsole', []);
+		
+		myApp.controller('MainCtrl', function(DataService) {
+			var main = this;
+			
+			DataService.getDomains().then(function(data) {
+				main.domains = data;
+			});
+			
+		});
+		
+		myApp.service('DataService', function($http) {
+			var service = this;
+
+			service.getDomains = function() {
+				return $http.get('jmx/beans').then(function(result) {
+					data = result.data;
+					return data;
+				});
+			};
+			
+			service.getBeanData = function(domain, bean) {
+				console.log(domain.name);
+				console.log(bean.name);
+				return $http.get('jmx/bean/' + encodeURIComponent(domain.name) + '/' + encodeURIComponent(escapeSlash(bean.name))).then(function(result) {
+					data = result.data;
+					return data;
+				});
+			};
+			
+			service.updateBeanData = function(domain, bean, attributes) {
+				var params = {};
+				for(var i = 0; i < attributes.length; i++) {
+					var name = attributes[i].name;
+					var value = attributes[i].value;
+					params[name] = value;
+				};
+				return $http.post('jmx/bean/' + encodeURIComponent(domain.name) + '/' + encodeURIComponent(escapeSlash(bean.name)), params)
+					.then(function(result) {
+						data = result.data;
+						return data;
+					});
+			};
+			
+			service.invokeOperation = function(domain, bean, operation) {
+				var params = {};
+				for(var i = 0; i < operation.parameters.length; i++) {
+					var name = operation.parameters[i].name;
+					var value = operation.parameters[i].value;
+					params[name] = value;
+				};
+				var uri = 'jmx/bean/' + encodeURIComponent(domain.name) + '/' + encodeURIComponent(escapeSlash(bean.name)) + '/' + encodeURIComponent(operation.name);
+				return $http.post(uri, params).then(function(result) {
+					data = result.data;
+					if(data) {
+						operation.result = data;						
+					}
+					else {
+						operation.result = 'Success';
+					}
+				}, function() { operation.result = 'Failed';});
+			};
+			
+			var escapeSlash = function(beanName) {
+				// some bean names have slashes in them, even escaped they break Spring's PathVariable.
+				// and anything after the final dot is an extension
+				return beanName.replace(new RegExp('/', 'g'), '__').replace(new RegExp('\\.', 'g'), '--');
+			}
+		});
+		
+		myApp.directive('mbean', function($compile, DataService) {
+			var linker = function(scope, elem, attrs) {
+				elem.click(function () {
+					var panelBody = elem.parent().find(".panel-body");
+					if(panelBody.length == 0) {
+						DataService.getBeanData(scope.domain, scope.bean).then(function(data) {
+							scope.beanProps = data;
+						});
+						scope.result = '';
+						scope.updateAttributes = function(attributes) {
+							// Post data to server
+							DataService.updateBeanData(scope.domain, scope.bean, attributes).then(function(data) {
+								// update the display with new results
+								DataService.getBeanData(scope.domain, scope.bean).then(function(data) {
+									scope.beanProps = data;
+								});
+							});
+						};
+						scope.callOperation = function(operation) { 
+							DataService.invokeOperation(scope.domain, scope.bean, operation);
+						};
+						scope.safeName = scope.domain.safeName + scope.bean.safeName;
+						var html = '<div class="panel-body table-responsive" id="{{ safeName }}Panel">' +
+								'<h5>Class: {{ beanProps.className}}</h5>' +
+								'<form>' +
+									'<table class="table table-striped">' +
+										'<thead>' +
+											'<th>Name</th><th>Value</th><th>Type</th><th>Description</th>' +
+										'</thead>' +
+										'<tbody>' +
+											'<tr ng-repeat="attr in beanProps.attributes">' +
+												'<td>{{ attr.name }}</td><td ng-if="!attr.readOnly"><input class="form-control" ng-model="attr.value"/>' +'</td><td ng-if="attr.readOnly" ng-bind-html="attr.value | unsafe"></td><td>{{ attr.type }}</td><td>{{ attr.description }}</td>' +
+											'</tr>' +
+											'<tr><td colspan="4"><button class="btn btn-default pull-right" type="submit" ng-click="updateAttributes(beanProps.attributes)">Update Attributes</button></td></tr>' +
+										'</tbody>' +
+									'</table>' +
+								'</form>' +
+							'<div ng-if="beanProps.operations.length > 0"><span><strong>Operations</strong></span></div>' +
+								'<ul class="list-group" ng-if="beanProps.operations.length > 0">' +
+									'<li class="list-group-item" ng-repeat="operation in beanProps.operations">' +
+										'<div>' +
+											'<div class="row">' +
+												'<div class="col-sm-4"><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ safeName }}{{ operation.name}}" aria-expanded="false" aria-controls="{{ safeName }}{{ operation.name}}">{{ operation.name }}</button></div>' +
+												'<div class="col-sm-offset-1"><strong class="col-sm-push-1">{{ operation.description }}</strong></div>' +
+											'</div>' +
+											'<div class="collapse" id="{{ safeName }}{{ operation.name}}">' +
+												'<div class="well">' +
+													'<div><button type="button" class="close" data-toggle="collapse" data-target="#{{ safeName }}{{ operation.name}}"><span aria-hidden="true">&times;</span></button></div><div class="clearfix"></div>' +
+													'<form class="form-horizontal">' +
+														'<div class="form-group" ng-repeat="param in operation.parameters">' +
+															'<label for="{{ param.name }}" class="col-sm-2 control-label">{{ param.name }}</label>' +
+															'<div class="col-sm-5">' +
+																'<input type="text" class="form-control" ng-model="param.value">' +
+															'</div>' +
+															'<div class="col-sm-5 control-label" style="text-align:left"> {{ param.description }}</div>' +
+														'</div>' +
+														'<div class="form-group">' +
+															'<div class="col-sm-offset-2 col-sm-10">' +
+																'<button type="submit" class="btn btn-default" ng-click="callOperation(operation)">Submit</button>' +
+															'</div>' +
+														'</div>' +
+													'</form>' +
+													'<div ng-bind-html="operation.result | unsafe"></div>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+									'</li>' +
+								'</ul>' +
+							'</div>' +
+						'</div>';
+						elem.after($compile(html)(scope));
+						scope.$apply();
+					}
+					else {
+						elem.parent().find(".panel-body").remove();
+					}
+				});
+			};
+			return {
+				restrict: 'A',
+				scope: {
+					bean: '=',
+					domain: '='
+				},
+				link: linker
+			};
+		});
+		
+		myApp.filter('unsafe', function($sce) {
+		    return function(val) {
+		        return $sce.trustAsHtml(val);
+		    };
+		});
+	</script>
+
+  </body>
+</html>
