@@ -1,7 +1,8 @@
 JMX Console
 ===========
 
-This is simple JMX MBean viewer that comes in the form of a JARred web fragment.  Building this project results
+This is simple JMX MBean viewer that can be used in Spring Boot (Version 2) or in the form of a JARred web fragment that can be
+added to a WAR file (Version 1).  Building Version 1 results
 in a JAR file, simply dropping that JAR file into your WEB-INF/lib directory will expose the JMX beans at the
 url /jmx-console.
 
@@ -9,7 +10,7 @@ url /jmx-console.
 Bugs
 ----
 
-There's one weird bug I haven't been able to figure out: although the JSPs in META-INF/resources/jmx-console are visible
+There's one weird bug in version 1 I haven't been able to figure out: although the JSPs in META-INF/resources/jmx-console are visible
 through the web browser, the master.css file always returns a 404.  If you figure this out, please fork the project
 and issue a pull request.  I'd appreciate it!
 
@@ -26,11 +27,12 @@ Artifact is available in Maven Central under
 	<dependency>
 		<groupId>com.github.kenwdelong</groupId>
 		<artifactId>jmx-console</artifactId>
-		<version>2.0.0</version>
+		<version>2.0.1</version>
 	</dependency>
 
 Releases
 --------
+- 2.0.1: (June 7, 2016) - Made it possible to subclass `JmxConsoleController` so that you can just override the path mapping.
 - 2.0.0: (Aug 24, 2015) - Adapted for use in Spring Boot, brand new UI (see below)
 - 1.1.0: This release is for Java 1.8 and Servlet 3.1
 - 1.0.0: This release is for Java 1.7, and Servlet 3.0
@@ -41,7 +43,7 @@ Version 2.0 has a new UI. In version 1, the UI was exposed through web fragments
 ### Configuration
 There is a single Spring controller in the package `com.kendelong.jmxconsole.web.controller` called `JmxConsoleController`; just mount that in your application context. You can either instantiate the bean directly in XML, Java config, or add the package to your component scan path.
 
-The new UI appears at `/admin/jmx`. If you need to change that, you'll need to write your own controller, or perhaps subclass the existing one and change the root request mapping.  You can use the `MBeanDataRetriever` to do the work. It requires a reference to the MBeanServer passed in the constructor. The controller gets it from Spring.
+The new UI appears at `/admin/jmx`. If you need to change that, you'll need to write your own controller, or subclass the existing one and change the root request mapping.  You can use the `MBeanDataRetriever` to do the work. It requires a reference to the MBeanServer passed in the constructor. The controller gets it from Spring.
 
 ### Screenshot
 

@@ -34,7 +34,7 @@ public class JmxConsoleController
 	@RequestMapping(method = RequestMethod.GET, produces="text/html")
 	public String getMainPage() throws IOException
 	{
-		InputStream in = this.getClass().getResourceAsStream("index.html");
+		InputStream in = JmxConsoleController.class.getResourceAsStream("index.html");
 		InputStreamReader is = new InputStreamReader(in);
 		StringBuilder sb = new StringBuilder();
 		BufferedReader br = new BufferedReader(is);
