@@ -43,7 +43,7 @@ Version 2.0 has a new UI. In version 1, the UI was exposed through web fragments
 ### Configuration
 There is a single Spring controller in the package `com.kendelong.jmxconsole.web.controller` called `JmxConsoleController`; just mount that in your application context. You can either instantiate the bean directly in XML, Java config, or add the package to your component scan path.
 
-The new UI appears at `/admin/jmx`. If you need to change that, you'll need to write your own controller, or subclass the existing one and change the root request mapping.  You can use the `MBeanDataRetriever` to do the work. It requires a reference to the MBeanServer passed in the constructor. The controller gets it from Spring.
+The new UI appears at `/admin/jmx`. If you need to change that, you'll need to write your own controller, or subclass the existing one and change the root request mapping (n.b., this doesn't appear to work - the inherited handler methods are not recognized).  You can use the `MBeanDataRetriever` to do the work. It requires a reference to the MBeanServer passed in the constructor. The controller gets it from Spring.
 
 ### Screenshot
 
