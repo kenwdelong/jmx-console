@@ -1,7 +1,7 @@
 JMX Console
 ===========
 
-This is simple JMX MBean viewer that can be used in Spring Boot (Version 2) or in the form of a JARred web fragment that can be
+This is simple JMX MBean viewer that can be used in Spring Boot (Version 2+) or in the form of a JARred web fragment that can be
 added to a WAR file (Version 1).  Building Version 1 results
 in a JAR file, simply dropping that JAR file into your WEB-INF/lib directory will expose the JMX beans at the
 url /jmx-console.
@@ -32,6 +32,7 @@ Artifact is available in Maven Central under
 
 Releases
 --------
+- 3.0.0: (TBD) - Upgrade to jarkarta.servlet packages Java 17, Spring 6, using Spring Boot parent for dependency management
 - 2.0.2: (Oct. 27, 2020) - Upgrade to Java 11, Spring 5.2.9
 - 2.0.1: (June 7, 2016) - Made it possible to subclass `JmxConsoleController` so that you can just override the path mapping.
 - 2.0.0: (Aug 24, 2015) - Adapted for use in Spring Boot, brand new UI (see below)

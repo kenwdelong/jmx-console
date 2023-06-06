@@ -3,8 +3,9 @@ package test;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 public class Loader implements ServletContextListener
 {
