@@ -27,12 +27,12 @@ Artifact is available in Maven Central under
 	<dependency>
 		<groupId>com.github.kenwdelong</groupId>
 		<artifactId>jmx-console</artifactId>
-		<version>2.0.2</version>
+		<version>3.0.0</version>
 	</dependency>
 
 Releases
 --------
-- 3.0.0: (TBD) - Upgrade to jarkarta.servlet packages Java 17, Spring 6, using Spring Boot parent for dependency management
+- 3.0.0: (June 27, 2023) - Upgrade to jarkarta.servlet packages Java 17, Spring 6, using Spring Boot parent for dependency management
 - 2.0.2: (Oct. 27, 2020) - Upgrade to Java 11, Spring 5.2.9
 - 2.0.1: (June 7, 2016) - Made it possible to subclass `JmxConsoleController` so that you can just override the path mapping.
 - 2.0.0: (Aug 24, 2015) - Adapted for use in Spring Boot, brand new UI (see below)
